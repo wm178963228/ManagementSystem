@@ -55,7 +55,6 @@ public class MybatisPlusGenerator {
 		// 数据源配置
 		DataSourceConfig dsc = new DataSourceConfig();
 		dsc.setDbType(DbType.MYSQL);
-		dsc.setSchemaname("tian");
 		dsc.setTypeConvert(new MySqlTypeConvert() {
 			// 自定义数据库表字段类型转换【可选】
 			@Override
