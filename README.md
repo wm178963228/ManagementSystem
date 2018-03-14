@@ -1,2 +1,2 @@
 # managementsystem
-一个后台管理系统,写写写!
+一个集成springboot+mybatisplus+elementui的后台管理系统,正在写写写!
