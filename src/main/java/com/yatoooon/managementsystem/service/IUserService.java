@@ -2,6 +2,7 @@ package com.yatoooon.managementsystem.service;
 
 import com.yatoooon.managementsystem.model.User;
 import com.baomidou.mybatisplus.service.IService;
+import com.yatoooon.managementsystem.utils.JsonResult;
 
 /**
  * <p>
@@ -12,5 +13,7 @@ import com.baomidou.mybatisplus.service.IService;
  * @since 2018-03-14
  */
 public interface IUserService extends IService<User> {
+
+	JsonResult login(String username, String password);
 
 }

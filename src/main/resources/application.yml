@@ -20,10 +20,11 @@ spring:
 ---
 ###################  mybatis-plus配置  ###################
 mybatis-plus:
-  mapper-locations: classpath*:com/yatoooon/managementsystem/**/mapper/*.xml
+  mapper-locations: classpath*:com/yatoooon/managementsystem/**/mapper/*Mapper.xml
   typeAliasesPackage: com.yatoooon.managementsystem.model
   global-config:
-    id-type: 0  #0:数据库ID自增   1:用户输入id  2:全局唯一id(IdWorker)  3:全局唯一ID(uuid)
+    id-type: 0  #主键类型  0:数据库ID自增   1:用户输入id  2:全局唯一id(IdWorker)  3:全局唯一ID(uuid)
+    field-strategy: 0   #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
     db-column-underline: false
     refresh-mapper: true
   configuration:
@@ -38,6 +39,7 @@ mybatis-plus:
 spring:
   profiles: dev
   datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:3306/management_system?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
       username: root
       password: 123456
@@ -49,6 +51,7 @@ spring:
 spring:
   profiles: dev
   datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:3306/management_system?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
       username: root
       password: 123456
