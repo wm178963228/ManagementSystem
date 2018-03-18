@@ -1,6 +1,5 @@
 package com.yatoooon.managementsystem;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.Banner;
@@ -9,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableTransactionManagement
-@MapperScan("com.yatoooon.managementsystem.dao*")
 @SpringBootApplication
 public class ManagementsystemApplication {
 	protected final static Logger logger = LoggerFactory.getLogger(ManagementsystemApplication.class);

@@ -28,7 +28,7 @@ public class Swagger2Config {
 
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
-				.title("项目接口文档说明")
+				.title("项目文档说明")
 				.description("项目地址")
 				.termsOfServiceUrl("https://github.com/yatoooon/managementsystem")
 				.contact("yatoooon")
