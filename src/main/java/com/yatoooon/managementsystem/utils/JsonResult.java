@@ -1,79 +1,66 @@
 package com.yatoooon.managementsystem.utils;
 
 
+/**
+ * @author yatoooon
+ */
 public class JsonResult {
-    private boolean success=true;
-    private String message="";
-    private int code=200;
-    private Object data;
 
-    public JsonResult() {
-    }
+	public static final int CODE_SUCCESS = 20000;
+	public static final int CODE_ERROR = 40000;
 
-    public JsonResult(Object data) {
-        if(data!=null){
-            this.data = data;
-        }
-    }
+	public static final String MESSAGE_SUCCESS = "操作成功";
+	public static final String MESSAGE_ERROR = "操作失败";
 
-    public JsonResult(boolean success, int code, String message, Object data) {
-        this.success = success;
-        this.message = message;
-        this.data = data;
-        this.code=code;
-    }
+	private int code;
+	private boolean success;
+	private String msg;
+	private Object data;
 
-    public JsonResult(boolean success, String message, int code) {
-        this.success = success;
-        this.message = message;
-        this.code = code;
-    }
+	public JsonResult(int code, String msg, Object data) {
+		this.code = code;
+		this.msg = msg;
+		this.data = data;
+		this.success = (code == 20000);
+	}
 
-    public JsonResult(boolean success, String message) {
-        this.success = success;
-        this.message = message;
-    }
+	public JsonResult(int code, String msg) {
+		this(code, msg, null);
+	}
 
-    public JsonResult(String message, Object data) {
-        this.message = message;
-        this.data = data;
-    }
+	public JsonResult(int code, Object data) {
+		this(code, code == 20000 ? MESSAGE_SUCCESS : MESSAGE_ERROR, data);
+	}
 
-    public JsonResult(String message) {
-        this.message = message;
-    }
+	public JsonResult(int code) {
+		this(code, code == 20000 ? MESSAGE_SUCCESS : MESSAGE_ERROR, null);
+	}
 
-    public int getCode() {
-        return code;
-    }
+	public int getCode() {
+		return code;
+	}
 
-    public void setCode(int code) {
-        this.code = code;
-    }
+	public void setCode(int code) {
+		this.code = code;
+	}
 
-    public boolean isSuccess() {
-        return success;
-    }
+	public boolean isSuccess() {
+		return success;
+	}
 
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
+	public String getMsg() {
+		return msg;
+	}
 
-    public String getMessage() {
-        return message;
-    }
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+	public Object getData() {
+		return data;
+	}
 
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        if(data!=null){
-            this.data = data;
-        }
-    }
+	public void setData(Object data) {
+		this.data = data;
+	}
 }

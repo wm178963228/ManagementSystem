@@ -4,6 +4,8 @@ import com.yatoooon.managementsystem.model.User;
 import com.baomidou.mybatisplus.service.IService;
 import com.yatoooon.managementsystem.utils.JsonResult;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * <p>
  *  服务类
@@ -14,6 +16,7 @@ import com.yatoooon.managementsystem.utils.JsonResult;
  */
 public interface IUserService extends IService<User> {
 
-	JsonResult login(String username, String password);
+	JsonResult login(String username, String password, HttpSession session);
 
+	JsonResult getInfo(String token);
 }

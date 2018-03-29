@@ -36,7 +36,7 @@ public class MybatisPlusGenerator {
 	/**
 	 * 要生成的表名称
 	 */
-	private static String[] tableName = new String[]{"user"};
+	private static String[] tableName = new String[]{"role"};
 
 	public static void main(String[] args) {
 		AutoGenerator mpg = new AutoGenerator();

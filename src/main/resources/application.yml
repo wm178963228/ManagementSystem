@@ -27,11 +27,13 @@ mybatis-plus:
     field-strategy: 2   #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
     db-column-underline: true
     refresh-mapper: true
+    call-setters-on-nulls: true #返回字段为null时,这个字段也消失,适应于返回Map,mybatis3.2版本以上可用
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: true #配置的缓存的全局开关
     lazyLoadingEnabled: true #延时加载的开关
     multipleResultSetsEnabled: true #开启的话，延时加载一个属性时会加载该对象全部属性，否则按需加载属性
+    jdbc-type-for-null: 'null'   #配置JdbcTypeForNull
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql语句,调试用
 ##########################################################
 ###################  开发环境的profile  ###################

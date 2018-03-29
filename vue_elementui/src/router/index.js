@@ -50,7 +50,7 @@ export const asyncRouterMap = [
       path: 'dashboard',
       name: 'aaaa',
       component: () => import('@/views/dashboard/index'),
-      meta: {title: 'XXXX管理系统', icon: 'dashboard'}
+      meta: {title: 'DASHBOARD', icon: 'dashboard'}
     }]
   },
   {
@@ -64,13 +64,13 @@ export const asyncRouterMap = [
         path: 'table',
         name: 'Table',
         component: () => import('@/views/table/index'),
-        meta: {roles: ['admin'], title: 'Table', icon: 'table'}
+        meta: {roles: ['operator'], title: 'Table', icon: 'table'}
       },
       {
         path: 'tree',
         name: 'Tree',
         component: () => import('@/views/tree/index'),
-        meta: {roles: ['editor'], title: 'Tree', icon: 'tree'}
+        meta: {roles: ['user'], title: 'Tree', icon: 'tree'}
       }
     ]
   },
@@ -83,6 +83,17 @@ export const asyncRouterMap = [
         name: 'Form',
         component: () => import('@/views/form/index'),
         meta: {title: 'Form', icon: 'form'}
+      }
+    ]
+  }, {
+    path: '/test',
+    component: Layout,
+    children: [
+      {
+        path: 'vue',
+        name: 'Test',
+        component: () => import('@/views/test/index'),
+        meta: {title: 'Test', icon: 'test'}
       }
     ]
   },

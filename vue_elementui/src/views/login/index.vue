@@ -31,14 +31,13 @@
 </template>
 
 <script>
-import { isvalidUsername } from '@/utils/validate'
 
 export default {
   name: 'login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!isvalidUsername(value)) {
-        callback(new Error('请输入正确的用户名'))
+      if (value.length < 5) {
+        callback(new Error('用户名不能小于5位'))
       } else {
         callback()
       }
