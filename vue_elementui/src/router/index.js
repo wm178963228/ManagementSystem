@@ -25,14 +25,14 @@ export const constantRouterMap = [
   {path: '/login', component: () => import('@/views/login/index'), hidden: true},
   {path: '/404', component: () => import('@/views/404'), hidden: true},
   {
-    path: '/',
-    component: Layout,
+    path: '',
     redirect: '/dashboard',
-    name: 'Dashboard',
-    hidden: true,
+    component: Layout,
     children: [{
       path: 'dashboard',
-      component: () => import('@/views/dashboard/index')
+      name: 'dashboard',
+      component: () => import('@/views/dashboard/index'),
+      meta: {title: 'XX管理系统主页', icon: 'dashboard'}
     }]
   }
 ]
@@ -44,56 +44,45 @@ export default new Router({
 })
 export const asyncRouterMap = [
   {
-    path: '/home',
-    component: Layout,
-    children: [{
-      path: 'dashboard',
-      name: 'aaaa',
-      component: () => import('@/views/dashboard/index'),
-      meta: {title: 'DASHBOARD', icon: 'dashboard'}
-    }]
-  },
-  {
     path: '/example',
     component: Layout,
     redirect: 'noredirect',
     name: 'Example',
-    meta: {title: 'Example', icon: 'example'},
+    meta: {title: '系统管理', icon: 'example'},
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: {roles: ['operator'], title: 'Table', icon: 'table'}
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: {roles: ['user'], title: 'Tree', icon: 'tree'}
+        path: 'roletable',
+        name: 'RoleTable',
+        component: () => import('@/views/roletable/index'),
+        meta: {roles: ['operator'], title: '角色管理', icon: 'table'}
+      }, {
+        path: 'usertable',
+        name: 'UserTable',
+        component: () => import('@/views/usertable/index'),
+        meta: {roles: ['operator'], title: '用户管理', icon: 'table'}
       }
     ]
   },
   {
-    path: '/form',
+    path: '',
     component: Layout,
     children: [
       {
-        path: 'index',
+        path: 'form',
         name: 'Form',
         component: () => import('@/views/form/index'),
         meta: {title: 'Form', icon: 'form'}
       }
     ]
   }, {
-    path: '/test',
+    path: '',
     component: Layout,
     children: [
       {
-        path: 'vue',
+        path: 'test',
         name: 'Test',
         component: () => import('@/views/test/index'),
-        meta: {title: 'Test', icon: 'test'}
+        meta: {title: 'VueTest', icon: 'test'}
       }
     ]
   },

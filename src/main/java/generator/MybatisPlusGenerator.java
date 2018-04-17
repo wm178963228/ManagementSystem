@@ -2,16 +2,16 @@ package generator;
 
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
-import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
-import com.baomidou.mybatisplus.generator.config.GlobalConfig;
-import com.baomidou.mybatisplus.generator.config.PackageConfig;
-import com.baomidou.mybatisplus.generator.config.StrategyConfig;
+import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.DbType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,7 +36,7 @@ public class MybatisPlusGenerator {
 	/**
 	 * 要生成的表名称
 	 */
-	private static String[] tableName = new String[]{"role"};
+	private static String[] tableName = new String[]{"test"};
 
 	public static void main(String[] args) {
 		AutoGenerator mpg = new AutoGenerator();
@@ -95,13 +95,25 @@ public class MybatisPlusGenerator {
 				this.setMap(map);
 			}
 		};
+
+		/*// 自定义 xxList.jsp 生成
+		List<FileOutConfig> focList = new ArrayList<FileOutConfig>();
+		focList.add(new FileOutConfig("/templates/index.vue.vm") {
+			@Override
+			public String outputFile(TableInfo tableInfo) {
+				// 自定义输入文件名称
+				return realPath + "\\vue_elementui\\src\\views\\" + tableInfo.getEntityName().toLowerCase() + "table" + "\\index.vue";
+			}
+		});
+		cfg.setFileOutConfigList(focList);*/
+
 		mpg.setCfg(cfg);
 
 		// 执行生成
 		mpg.execute();
 
 		// 打印注入设置
-        System.err.println(mpg.getCfg().getMap().get("abc"));
+		System.err.println(mpg.getCfg().getMap().get("abc"));
 	}
 
 }

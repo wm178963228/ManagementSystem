@@ -6,8 +6,7 @@
     <resultMap id="BaseResultMap" type="com.yatoooon.managementsystem.model.User">
         <id column="id" property="id"/>
         <result column="role_id" property="roleId"/>
-        <result column="name" property="name"/>
-        <result column="loginname" property="loginname"/>
+        <result column="username" property="username"/>
         <result column="password" property="password"/>
         <result column="avatar" property="avatar"/>
         <result column="create_time" property="createTime"/>
@@ -17,20 +16,19 @@
         <result column="state" property="state"/>
         <result column="token" property="token"/>
     </resultMap>
-    <select id="selectMyPage" resultType="java.util.Map">
-        SELECT * FROM user
-        <where>
-            ${ew.sqlSegment}
-        </where>
-    </select>
+
     <select id="getInfo" resultType="java.util.Map">
-        SELECT user.name,user.avatar,role.`name` as role
+        SELECT user.username,user.avatar,role.`name` as role
         FROM `user`
         LEFT JOIN role ON `user`.role_id = role.id
         <where>
             token = #{token}
             and user.state = 1
         </where>
+    </select>
+
+    <select id="selectUserList" resultType="com.yatoooon.managementsystem.model.User">
+        SELECT * FROM user WHERE state=#{state}
     </select>
 
 </mapper>

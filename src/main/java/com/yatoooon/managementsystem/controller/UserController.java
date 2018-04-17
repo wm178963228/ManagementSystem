@@ -4,6 +4,8 @@ package com.yatoooon.managementsystem.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.yatoooon.managementsystem.model.User;
 import com.yatoooon.managementsystem.service.IUserService;
 import com.yatoooon.managementsystem.utils.JsonResult;
 import io.swagger.annotations.Api;
@@ -39,7 +41,7 @@ public class UserController {
 			String username = jsonObject.getString("username");
 			String password = jsonObject.getString("password");
 			return userService.login(username, password, session);
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			return new JsonResult(JsonResult.CODE_ERROR, e.getMessage());
 		}
 	}
@@ -48,16 +50,15 @@ public class UserController {
 	@ApiOperation(value = "系统退出")
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	@ResponseBody
-	public JsonResult login(HttpSession session) {
+	public JsonResult logout(HttpSession session) {
 		try {
-			session.invalidate();
-			return new JsonResult(JsonResult.CODE_SUCCESS, "退出成功");
+			return userService.logout(session);
 		} catch (Exception e) {
 			return new JsonResult(JsonResult.CODE_ERROR, e.getMessage());
 		}
 	}
 
-	@ApiOperation(value = "User信息")
+	@ApiOperation(value = "用户信息")
 	@RequestMapping(value = "/getInfo", method = RequestMethod.POST)
 	@ResponseBody
 	public JsonResult getInfo(@RequestBody String jsonStr) {
@@ -65,9 +66,45 @@ public class UserController {
 			JSONObject jsonObject = JSON.parseObject(jsonStr);
 			String token = jsonObject.getString("token");
 			return userService.getInfo(token);
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			return new JsonResult(JsonResult.CODE_ERROR, e.getMessage());
 		}
+	}
+
+	@ApiOperation(value = "用户列表")
+	@RequestMapping(value = "/list", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResult getUserList(@RequestBody String jsonStr) {
+		try {
+			JSONObject jsonObject = JSON.parseObject(jsonStr);
+			Integer page = jsonObject.getInteger("page");
+			Integer limit = jsonObject.getInteger("limit");
+			String name = jsonObject.getString("name");
+			Integer state = jsonObject.getInteger("state");
+			Page<User> userPage = new Page<>(page, limit);
+			return userService.getUserList(userPage, state);
+		} catch (Exception e) {
+			return new JsonResult(JsonResult.CODE_ERROR, e.getMessage());
+		}
+
+	}
+
+	@ApiOperation(value = "添加用户")
+	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResult addUser(@RequestBody String jsonStr) {
+		try {
+			JSONObject jsonObject = JSON.parseObject(jsonStr);
+			Integer roleid = jsonObject.getInteger("roleid");
+			String username = jsonObject.getString("username");
+			String password = jsonObject.getString("password");
+			String avatar = jsonObject.getString("avatar");
+			Integer state = jsonObject.getInteger("state");
+			return userService.addUser(roleid, username, password, avatar, state);
+		} catch (Exception e) {
+			return new JsonResult(JsonResult.CODE_ERROR, e.getMessage());
+		}
+
 	}
 }
 

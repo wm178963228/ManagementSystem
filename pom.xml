@@ -23,7 +23,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <mybatisplus-spring-boot-starter.version>1.0.5</mybatisplus-spring-boot-starter.version>
-        <mybatis-plus.version>2.1.9</mybatis-plus.version>
+        <mybatis-plus.version>2.2.0</mybatis-plus.version>
         <org.apache.velocity.version>1.7</org.apache.velocity.version>
         <shiro-spring.version>1.4.0</shiro-spring.version>
         <fastjson.version>1.2.46</fastjson.version>
@@ -77,12 +77,6 @@
             <artifactId>velocity</artifactId>
             <version>${org.apache.velocity.version}</version>
         </dependency>
-        <!-- shiro权限控制框架 -->
-        <!--<dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring</artifactId>
-            <version>${shiro-spring.version}</version>
-        </dependency>-->
         <!-- fastjson阿里巴巴jSON处理器 -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -100,6 +94,12 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger2.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+            <scope>true</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -107,6 +107,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                </configuration>
             </plugin>
             <!--静态资源引用插件 -->
             <plugin>

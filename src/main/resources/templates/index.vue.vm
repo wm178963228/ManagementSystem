@@ -1,0 +1,411 @@
+<template>
+    <div class="app" :class="{ active: isActive, 'text-danger': hasError }">
+        <p>{{ message | capitalize }}</p>
+        <input v-model="message">
+        <button @click.stop="reverseMessage">逆转消息</button>
+        <p v-if="seen">现在你看到我了</p>
+        <span v-once="" :title="message|capitalize">
+    鼠标悬停几秒钟查看此处动态绑定的提示信息！
+    </span>
+        <ol>
+            <li v-for="todo in todos">
+                {{ todo.text }}
+            </li>
+        </ol>
+        <ol>
+            <!-- 现在我们为每个todo-item提供待办项对象    -->
+            <!-- 待办项对象是变量，即其内容可以是动态的 -->
+            <testcomponent v-for="(item, index) in groceryList" :test="item" :item="item" :index="index"
+                           :key="index.id"></testcomponent>
+        </ol>
+        <button :disabled="someDynamicCondition">Button</button>
+        <p>{{ number + 1 }}</p>
+        <p>{{ ok ? 'YES' : 'NO' }}</p>
+        <p>{{ message.split(' ').reverse().join('|') }}</p>
+        <p>Using mustaches: {{ rawHtml }}</p>
+        <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+        <a :href="url">百度一下</a>
+        <p>Original message: "{{ message }}"</p>
+        <p>Computed reversed message: "{{ reversedMessage }}"</p>
+        <div :class="computedClassObject" :style="styleObject">
+            <p>{{ firstName }}</p>
+            <p>{{ lastName }}</p>
+            <p>{{ fullName }}</p>
+        </div>
+        <div :class="classObject">
+            <p>
+                Ask a yes/no question:
+                <input v-model="question">
+            </p>
+            <p>{{ answer }}</p>
+        </div>
+        <h1 v-if="ok">Yes</h1>
+        <h1 v-else>No</h1>
+        <template v-if="ok">
+            <h1>Title</h1>
+            <p>Paragraph 1</p>
+            <p>Paragraph 2</p>
+        </template>
+        <div v-if="Math.random() > 0.5">
+            Now you see me
+        </div>
+        <div v-else>
+            Now you don't see me
+        </div>
+        <div v-if="type === 'A'">
+            A
+        </div>
+        <div v-else-if="type === 'B'">
+            B
+        </div>
+        <div v-else-if="type === 'C'">
+            C
+        </div>
+        <div v-else>
+            Not A/B/C
+        </div>
+        <div>
+            <template v-if="loginType === 'username'">
+                <label>Username</label>
+                <input placeholder="Enter your username">
+            </template>
+            <template v-else="">
+                <label>Email</label>
+                <input placeholder="Enter your email address">
+            </template>
+            <button @click="toggleLoginType">Toggle login type</button>
+        </div>
+        <div>
+            <template v-if="loginType === 'username'">
+                <label>Username</label>
+                <input placeholder="Enter your username" :key="username_input">
+            </template>
+            <template v-else="">
+                <label>Email</label>
+                <input placeholder="Enter your email address" :key="address_input">
+            </template>
+            <button @click="toggleLoginType">Toggle login type</button>
+        </div>
+        <h1 v-show="ok">Hello!</h1>
+        <ul>
+            <li v-for="(todo, index)  in todos">
+                {{ parentMessage }} - {{ index }} - {{ todo.text }}
+            </li>
+        </ul>
+        <ul>
+            <template v-for="todo in todos">
+                <li>{{ todo.text }}</li>
+                <li>渲染多个元素块儿...</li>
+            </template>
+        </ul>
+        <ul id="repeat-object">
+            <li v-for="value in object">
+                {{ value }}
+            </li>
+        </ul>
+        <div v-for="(value, key) in object">
+            {{ key }} : {{ value }}
+        </div>
+        <div v-for="(value, key, index) in object">
+            {{ index }}. {{ key }} : {{ value }}
+        </div>
+        <span v-for="n in 10">{{ n }} </span>
+        <div>
+            <input
+                    v-model="newTodoText"
+                    @keyup.enter="addNewTodo"
+                    placeholder="Add a todo"
+            >
+            <ul>
+                <li
+                        is="TODOcomponent"
+                        v-for="(todo, index) in todos"
+                        :key="todo.id"
+                        :title="todo"
+                        @remove="todos.splice(index, 1)"
+                ></li>
+            </ul>
+        </div>
+        <li v-for="n in evenNumbers">{{ n }}</li>
+        <li v-for="n in even(numbers)">{{ n }}</li>
+        <div id="example-1">
+            <button @click="counter += 1">增加 1</button>
+            <p>这个按钮被点击了 {{ counter }} 次。</p>
+        </div>
+        <div id="example-2">
+            <!-- `greet` 是在下面定义的方法名 -->
+            <button @click="greet">Greet</button>
+            <button @click="say('hi')">Say hi</button>
+            <button @click="warn('Form cannot be submitted yet.', $event)">Submit</button>
+        </div>
+        <ul id="app" class="li">
+            <li @click="say('hello!', $event)">
+                点击当前行获取内容
+            </li>
+            <li>
+                {{message}}
+            </li>
+            <li>
+                li3
+            </li>
+        </ul>
+        <!-- 阻止单击事件冒泡 -->
+        <a @click.stop="doThis('.stop')">.stop</a>
+        <!-- 提交事件不再重载页面 -->
+        <form @submit.prevent="doThis('.prevent')">.prevent</form>
+        <!-- 修饰符可以串联  -->
+        <a @click.stop.prevent="doThis('.stop.prevent')">.stop.prevent</a>
+        <!-- 只有修饰符 -->
+        <form @submit.prevent>submit.prevent</form>
+        <!-- 添加事件侦听器时使用事件捕获模式 -->
+        <div @click.capture="doThis('.capture')">.capture</div>
+        <!-- 只当事件在该元素本身（而不是子元素）触发时触发回调 -->
+        <div @click.self="doThis('.self')">.self</div>
+        <a @click.once="doThis('once')">.once</a>
+        <!-- 只有在 keyCode 是 13 时调用 vm.submit() -->
+        <input @keyup.enter="doThis('enter')">
+        <!-- Alt + C -->
+        <input @keyup.alt.67="doThis('Alt+C')" placeholder="Alt+C">
+        <!-- Ctrl + Click -->
+        <div @click.ctrl="doThis('Ctrl + Click')">Ctrl + Click</div>
+        <div>
+            <input v-model="message" placeholder="edit me">
+            <p>Message is: {{ message }}</p>
+        </div>
+        <div>
+            <span>Multiline message is:</span>
+            <p style="white-space: pre">{{ message }}</p>
+            <br>
+            <textarea v-model="message" placeholder="add multiple lines"></textarea>
+        </div>
+        <div>
+            <input type="checkbox" id="checkbox" v-model="checked">
+            <label for="checkbox">{{ checked }}</label>
+        </div>
+        <div>
+            <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+            <label for="jack">Jack</label>
+            <input type="checkbox" id="john" value="John" v-model="checkedNames">
+            <label for="john">John</label>
+            <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+            <label for="mike">Mike</label>
+            <br>
+            <span>Checked names: {{ checkedNames }}</span>
+        </div>
+        <div>
+            <input type="radio" id="one" value="One" v-model="picked">
+            <label for="one">One</label>
+            <br>
+            <input type="radio" id="two" value="Two" v-model="picked">
+            <label for="two">Two</label>
+            <br>
+            <span>Picked: {{ picked }}</span>
+        </div>
+        <div>
+            <select v-model="selected" style="width: 100px">
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+            </select>
+            <span>Selected: {{ selected }}</span>
+        </div>
+        <div>
+            <select v-model="multipleselected" multiple style="width: 80px">
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+            </select>
+            <br>
+            <span>multipleselected: {{ multipleselected }}</span>
+        </div>
+        <div>
+            <select v-model="selected">
+                <option v-for="option in options" :value="option.value">
+                    {{ option.text }}
+                </option>
+            </select>
+            <span>Selected: {{ selected }}</span>
+        </div>
+        <!-- 当选中时，`picked` 为字符串 "a" -->
+        <input type="radio" v-model="picked" value="a">
+        <!-- `toggle` 为 true 或 false -->
+        <input type="checkbox" v-model="checked">
+        <!-- 当选中时，`selected` 为字符串 "abc" -->
+        <select v-model="selected">
+            <option value="abc">ABC</option>
+        </select>
+        <input
+                type="checkbox"
+                v-model="checked"
+                :true-value="a"
+                :false-value="b"
+        >
+        <input type="radio" v-model="picked" :value="a">
+        <select v-model="selected">
+            <!-- 内联对象字面量 -->
+            <option :value="{ number: 123 }">123</option>
+        </select>
+        <input v-model.lazy="message">
+        <input v-model.number="age" type="number">
+        <input v-model.trim="message">
+    </div>
+</template>
+
+<script>
+    import Testcomponent from '@/components/Testcomponent'
+    import TODOcomponent from '@/components/TODOcomponent'
+
+    export default {
+        data() {
+            return {
+                name: 'Vue.js',
+                age: '15',
+                message: 'Hi Vue!  ' + new Date(),
+                seen: true,
+                parentMessage: 'Parent',
+                todos: [
+                    {id: '1', text: '学习 JavaScript'},
+                    {id: '2', text: '学习 Vue'},
+                    {id: '3', text: '先写个项目瞅瞅'}
+                ],
+                groceryList: [
+                    {text: '蔬菜'},
+                    {text: '奶酪'},
+                    {text: '随便'}
+                ],
+                a: 1,
+                b: 2,
+                someDynamicCondition: true,
+                number: 5,
+                ok: true,
+                rawHtml: '<span style="color: red">This Should be red.</span>',
+                url: 'https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png',
+                firstName: 'Foo',
+                lastName: 'Bar',
+                question: '',
+                answer: 'I cannot give you an answer until you ask a question!',
+                isActive: true,
+                hasError: true,
+                classObject: {
+                    active: false,
+                    'text-danger': false
+                },
+                styleObject: {
+                    color: 'red',
+                    fontSize: '13px'
+                },
+                type: true,
+                loginType: 'username',
+                username_input: 'username_input',
+                object: {
+                    FirstName: 'John',
+                    LastName: 'Doe',
+                    Age: 30
+                },
+                newTodoText: '',
+                nextTodoId: 4,
+                numbers: [1, 2, 3, 4, 5],
+                counter: 0,
+                checked: false,
+                checkedNames: [],
+                picked: '',
+                selected: null,
+                multipleselected: [],
+                options: [
+                    {text: 'One', value: 'A'},
+                    {text: 'Two', value: 'B'},
+                    {text: 'Three', value: 'C'}
+                ]
+            }
+        },
+        methods: {
+            reverseMessage() {
+                this.message = this.message.split('').reverse().join('')
+                console.error('a is: ' + this.a)
+            },
+            toggleLoginType() {
+                this.loginType = this.loginType === 'username' ? 'email' : 'username'
+            },
+            addNewTodo() {
+                this.todos.push({
+                    id: this.nextTodoId++,
+                    text: this.newTodoText
+                })
+                this.newTodoText = ''
+            },
+            even(numbers) {
+                return numbers.filter(function (number) {
+                    return number % 2 === 0
+                })
+            },
+            greet(event) {
+                // `this` 在方法里指当前 Vue 实例
+                alert('Hello ' + this.name + '!')
+                // `event` 是原生 DOM 事件
+                alert(event.target.tagName)
+            },
+            warn(message, event) {
+                // 现在我们可以访问原生事件对象
+                if (event) event.preventDefault()
+                alert(message)
+            },
+            say(message, event) {
+                alert(message)
+                var el = event.currentTarget
+                alert('当前对象的内容：' + el.innerHTML)
+            },
+            doThis(message) {
+                alert(message)
+            }
+        },
+        components: {Testcomponent, TODOcomponent},
+        filters: {
+            capitalize(value) {
+                if (!value) return ''
+                value = value.toString()
+                return value.charAt(0).toLowerCase() + value.slice(1)
+            }
+        },
+        computed: {
+            reversedMessage() {
+                return this.message.split('').reverse().join('')
+            },
+            fullName: {
+                get() {
+                    return this.firstName + ' ' + this.lastName
+                },
+                set(newValue) {
+                    var names = newValue.split(' ')
+                    this.firstName = names[0]
+                    this.lastName = names[names.length - 1]
+                }
+            },
+            computedClassObject() {
+                return {
+                    active: this.isActive && !this.error,
+                    'text-danger': this.error && this.error.type === 'fatal'
+                }
+            },
+            evenNumbers() {
+                return this.numbers.filter(function (number) {
+                    return number % 2 === 0
+                })
+            }
+        },
+        watch: {
+            // 如果 question 发生改变，这个函数就会运行
+            question() {
+                this.answer = 'Waiting for you to stop typing...'
+            }
+        }
+    }
+
+</script>
+<style rel="stylesheet/scss" lang="scss" scoped>
+    .li {
+        background-color: #333;
+        color: #eee;
+        padding: 3px;
+    }
+</style>
+

@@ -35,13 +35,9 @@ public class User extends Model<User> {
 	@TableField("role_id")
 	private Integer roleId;
 	/**
-	 * 名称
+	 * 用户名
 	 */
-	private String name;
-	/**
-	 * 登录名
-	 */
-	private String loginname;
+	private String username;
 	/**
 	 * 登录密码
 	 */
@@ -98,20 +94,12 @@ public class User extends Model<User> {
 		this.roleId = roleId;
 	}
 
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getLoginname() {
-		return loginname;
-	}
-
-	public void setLoginname(String loginname) {
-		this.loginname = loginname;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -188,8 +176,7 @@ public class User extends Model<User> {
 		return "User{" +
 				"id=" + id +
 				", roleId=" + roleId +
-				", name='" + name + '\'' +
-				", loginname='" + loginname + '\'' +
+				", username='" + username + '\'' +
 				", password='" + password + '\'' +
 				", avatar='" + avatar + '\'' +
 				", createTime=" + createTime +

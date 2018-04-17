@@ -1,9 +1,7 @@
 package com.yatoooon.managementsystem.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.yatoooon.managementsystem.model.Role;
+
+import com.baomidou.mybatisplus.plugins.Page;
 import com.yatoooon.managementsystem.model.User;
 import com.yatoooon.managementsystem.dao.UserMapper;
 import com.yatoooon.managementsystem.service.IUserService;
@@ -13,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -35,7 +33,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 			return new JsonResult(JsonResult.CODE_ERROR);
 		}
 		User user = new User();
-		user.setLoginname(username);
+		user.setUsername(username);
 		user.setPassword(password);
 		User one = baseMapper.selectOne(user);
 		if (one == null) {
@@ -65,4 +63,59 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 		userInfo.put("roles", roleList);
 		return new JsonResult(JsonResult.CODE_SUCCESS, userInfo);
 	}
+
+	@Override
+	public JsonResult logout(HttpSession session) {
+		if (session == null || "".equals(session.getId())) {
+			return new JsonResult(JsonResult.CODE_ERROR, "退出失败");
+		}
+		User user = new User();
+		user.setToken(session.getId());
+		User one = baseMapper.selectOne(user);
+		one.setToken(" ");
+		Integer integer = baseMapper.updateById(one);
+		session.invalidate();
+		if (integer != 1) {
+			return new JsonResult(JsonResult.CODE_ERROR);
+		}
+		return new JsonResult(JsonResult.CODE_SUCCESS, "退出成功");
+	}
+
+	@Override
+	public JsonResult getUserList(Page<User> page, Integer state) {
+		Map<String, Object> rtnMap = new HashMap<>();
+		// 不进行 count sql 优化，解决 MP 无法自动优化 SQL 问题
+		page.setOptimizeCountSql(false);
+		// 不查询总记录数
+		page.setSearchCount(true);
+		Page<User> userPage = page.setRecords(baseMapper.selectUserList(page, state));
+		long total = page.getTotal();
+		rtnMap.put("userList", userPage.getRecords());
+		rtnMap.put("total", total);
+		return new JsonResult(JsonResult.CODE_SUCCESS, rtnMap);
+	}
+
+	@Override
+	public JsonResult addUser(Integer roleid, String username, String password, String avatar, Integer state) {
+		if (username == null || "".equals(username) || password == null || "".equals(password)) {
+			return new JsonResult(JsonResult.CODE_ERROR);
+		}
+		User user = new User();
+		user.setUsername(username);
+		User one = baseMapper.selectOne(user);
+		if (one != null) {
+			return new JsonResult(JsonResult.CODE_ERROR, "已存在该用户名");
+		}
+		user.setRoleId(roleid);
+		user.setPassword(password);
+		user.setAvatar(avatar);
+		user.setState(state);
+		user.setCreateTime(new Date());
+		Integer insert = baseMapper.insert(user);
+		if (insert != 1) {
+			return new JsonResult(JsonResult.CODE_ERROR, "新建用户失败");
+		}
+		return new JsonResult(JsonResult.CODE_SUCCESS);
+	}
+
 }
